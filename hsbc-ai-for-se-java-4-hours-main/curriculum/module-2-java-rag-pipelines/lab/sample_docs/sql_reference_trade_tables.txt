@@ -1,0 +1,29 @@
+Atlas Metals Trading Database - Table Reference (synthetic training data)
+
+TABLE trade
+- trade_id: unique id of the trade, text, for example T-100234.
+- metal_code: AU for gold, AG for silver, PT for platinum, PD for palladium.
+- quantity_oz: quantity in troy ounces. Kilo bars are converted at 32.1507 troy ounces per kilogram.
+- price_per_oz: agreed price per troy ounce in the trade currency.
+- currency: three letter currency code of the price.
+- counterparty_id: links to the counterparty table.
+- trade_date: the date the trade was executed.
+- settlement_date: the date cash and metal are exchanged.
+- status: settlement status of the trade. Values are NEW, CONFIRMED, SETTLED, FAILED and CANCELLED.
+
+TABLE counterparty
+- counterparty_id: unique id of the client or bank.
+- name: legal name of the counterparty.
+- risk_tier: internal risk grade from 1 (lowest risk) to 5 (highest risk).
+- sanction_flag: Y when a sanction applies to the counterparty, otherwise N.
+
+TABLE inventory_position
+- vault_id: the vault holding the metal.
+- metal_code: same codes as the trade table.
+- quantity_oz: metal held in troy ounces at the end of the as_of_date.
+- as_of_date: the business date of the position snapshot.
+
+Query tips
+- To find all trades for a counterparty, join trade to counterparty on counterparty_id.
+- Cancelled trades stay in the trade table with status CANCELLED, so filter them out for volume statistics.
+- The inventory_position table holds one row per vault, metal and as_of_date.

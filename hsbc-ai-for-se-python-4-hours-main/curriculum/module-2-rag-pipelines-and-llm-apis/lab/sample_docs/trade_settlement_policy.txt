@@ -1,0 +1,20 @@
+Atlas Markets — Trade Settlement Policy (synthetic training data)
+
+Standard settlement cycle:
+- Equities settle on a T+1 basis (trade date plus one business day).
+- Fixed income instruments settle on a T+1 or T+2 basis depending on
+  instrument type; confirm against the instrument's settlement
+  instructions before assuming T+1.
+- FX spot transactions settle on a T+2 basis.
+
+Settlement cutoff times:
+- Same-day settlement instructions must be submitted before 2:00 PM
+  local market time.
+- Instructions submitted after the cutoff are processed on the next
+  available settlement cycle.
+
+Failed settlement handling:
+- A failed settlement must be flagged to the settlement operations
+  desk within one hour of the failure being detected.
+- Repeated failures on the same counterparty must be escalated to
+  the counterparty risk team for review.

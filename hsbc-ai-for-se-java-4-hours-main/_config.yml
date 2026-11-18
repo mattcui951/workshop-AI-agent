@@ -1,0 +1,14 @@
+kramdown:
+  syntax_highlighter_opts:
+    disable: true                 # highlight.js handles code blocks
+
+# Every page uses _layouts/default.html. Its theme files (fonts, CSS, JavaScript) are served from this repository's
+# curriculum/universal-resources-internal/static/v2 folder, so the site works on a private GitHub Pages domain.
+
+# Reference solutions stay in the repository but are not published on the site.
+# Remove these lines to publish them (for example, for an instructor-only copy of the site).
+exclude:
+  - curriculum/module-1-system-design-and-prd/solutions
+  - curriculum/module-2-java-rag-pipelines/solutions
+  - curriculum/module-3-performance-and-security/solutions
+  - curriculum/module-4-agentic-workflows/solutions

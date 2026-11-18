@@ -1,0 +1,20 @@
+Atlas Metals Bullion Desk - Settlement and Cutoff Policy (synthetic training data)
+
+Settlement cycles
+- Spot gold and spot silver settle two business days after the trade date (T+2).
+- Spot platinum and spot palladium also settle on T+2 unless the client's agreement says otherwise.
+- Forward trades settle on the agreed settlement date, which must be a business day in both markets.
+
+Same-day settlement
+- Same-day settlement instructions must be received before 13:00 New York time.
+- Instructions received after the cutoff are processed on the next available settlement day.
+- Same-day settlement is only available for trades fully confirmed by the client.
+
+Failed settlements
+- A failed settlement must be reported to the settlement operations desk within one hour of detection.
+- Repeated failures with the same counterparty are escalated to the counterparty risk team.
+
+Sanctions and payment stops
+- When a sanction is applied to a counterparty, new payments to that counterparty must stop immediately.
+- Payments already in flight are reviewed by compliance, who decide whether each one is held or released.
+- Any statistics shared with the business about a sanctioned counterparty must go through the compliance process.

@@ -1,0 +1,187 @@
+openapi: 3.0.3
+info:
+  title: Single Cash Flow Trade Service
+  version: "1.0.0"
+  description: >
+    Captures single cash flow precious-metals trades and exposes their status.
+    Synthetic training example - not an HSBC API.
+paths:
+  /cash-flow-trades:
+    post:
+      summary: Create a single cash flow trade
+      operationId: createTrade
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: Client-generated key. Repeating a request with the same key returns the original trade instead of creating a second one.
+          schema:
+            type: string
+            maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCashFlowTradeRequest'
+      responses:
+        '201':
+          description: Trade created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashFlowTradeResponse'
+        '200':
+          description: A trade with this Idempotency-Key already exists; it is returned unchanged
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashFlowTradeResponse'
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      summary: Search trades by client and settlement date
+      operationId: searchTrades
+      parameters:
+        - name: clientId
+          in: query
+          schema:
+            type: string
+        - name: settlementDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        '200':
+          description: Matching trades, newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CashFlowTradeResponse'
+  /cash-flow-trades/{tradeId}:
+    get:
+      summary: Get one trade
+      operationId: getTrade
+      parameters:
+        - name: tradeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The trade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashFlowTradeResponse'
+        '404':
+          description: No such trade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /cash-flow-trades/{tradeId}/cancel:
+    post:
+      summary: Cancel a trade that has not settled
+      operationId: cancelTrade
+      parameters:
+        - name: tradeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The cancelled trade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashFlowTradeResponse'
+        '404':
+          description: No such trade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: The trade has already settled or been cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    CreateCashFlowTradeRequest:
+      type: object
+      required: [clientId, metal, quantityTroyOz, pricePerTroyOz, currency, settlementDate]
+      properties:
+        clientId:
+          type: string
+        metal:
+          type: string
+          enum: [GOLD, SILVER, PLATINUM, PALLADIUM]
+        quantityTroyOz:
+          type: number
+          description: Quantity in troy ounces (not grams, not avoirdupois ounces)
+          exclusiveMinimum: true
+          minimum: 0
+        pricePerTroyOz:
+          type: number
+          exclusiveMinimum: true
+          minimum: 0
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}$'
+        settlementDate:
+          type: string
+          format: date
+    CashFlowTradeResponse:
+      type: object
+      properties:
+        tradeId:
+          type: string
+        clientId:
+          type: string
+        metal:
+          type: string
+          enum: [GOLD, SILVER, PLATINUM, PALLADIUM]
+        quantityTroyOz:
+          type: number
+        pricePerTroyOz:
+          type: number
+        currency:
+          type: string
+        settlementDate:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [NEW, CONFIRMED, SETTLED, CANCELLED]
+        createdAt:
+          type: string
+          format: date-time
+        cashAmount:
+          type: number
+          description: quantityTroyOz x pricePerTroyOz, in the trade currency
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string

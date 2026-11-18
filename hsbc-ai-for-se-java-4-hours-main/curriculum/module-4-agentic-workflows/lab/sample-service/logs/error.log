@@ -1,0 +1,11 @@
+2026-10-04 02:00:02.871 INFO  ReconciliationJob - Reconciled business day 2026-10-03: 41 trades, average notional 1250000 cents
+2026-10-05 02:00:03.114 ERROR ReconciliationJob - Overnight reconciliation failed for run date 2026-10-05 (Monday)
+java.lang.ArithmeticException: / by zero
+	at com.atlas.recon.ReconciliationJob.averageNotionalCents(ReconciliationJob.java:26)
+	at com.atlas.recon.ReconciliationJob.run(ReconciliationJob.java:17)
+	at com.atlas.recon.NightlyScheduler.lambda$start$0(NightlyScheduler.java:44)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+2026-10-05 02:00:03.116 WARN  ReconciliationJob - Business day used for this run: 2026-10-03 (0 trades found)
+2026-10-12 02:00:03.090 ERROR ReconciliationJob - Overnight reconciliation failed for run date 2026-10-12 (Monday)
+java.lang.ArithmeticException: / by zero
+	at com.atlas.recon.ReconciliationJob.averageNotionalCents(ReconciliationJob.java:26)

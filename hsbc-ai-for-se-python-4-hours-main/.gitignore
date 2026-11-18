@@ -1,0 +1,15 @@
+## NPM ##
+package-lock.json
+node_modules
+.vscode
+## Python ##
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+*.bak
+
+## Lab output (learner evidence) ##
+evidence/
+.DS_Store

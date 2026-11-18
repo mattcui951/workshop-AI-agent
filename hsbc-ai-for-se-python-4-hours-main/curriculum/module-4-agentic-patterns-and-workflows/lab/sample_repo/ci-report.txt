@@ -1,0 +1,35 @@
+Nightly CI report - 2026-10-13 02:00 UTC
+Command: pytest --tb=short -q
+Result: FAILED (3 failed, 2 passed)
+----------------------------------------
+..FFF                                                                    [100%]
+=================================== FAILURES ===================================
+____________________ test_a_short_position_subtracts_delta _____________________
+tests/test_portfolio.py:28: in test_a_short_position_subtracts_delta
+    assert short_call == pytest.approx(-long_call)
+E   assert 6.7337073559951275 == -6.7337073559951275 ± 6.7e-06
+E     
+E     comparison failed
+E     Obtained: 6.7337073559951275
+E     Expected: -6.7337073559951275 ± 6.7e-06
+______________________ test_net_delta_for_the_sample_book ______________________
+tests/test_portfolio.py:32: in test_net_delta_for_the_sample_book
+    assert net_delta(BOOK) == pytest.approx(82.66, abs=0.01)
+E   assert 52.011220679853835 == 82.66 ± 0.01
+E     
+E     comparison failed
+E     Obtained: 52.011220679853835
+E     Expected: 82.66 ± 0.01
+______________________ test_net_gamma_for_the_sample_book ______________________
+tests/test_portfolio.py:36: in test_net_gamma_for_the_sample_book
+    assert net_gamma(BOOK) == pytest.approx(-1.94, abs=0.01)
+E   assert 5.828987122759555 == -1.94 ± 0.01
+E     
+E     comparison failed
+E     Obtained: 5.828987122759555
+E     Expected: -1.94 ± 0.01
+=========================== short test summary info ============================
+FAILED tests/test_portfolio.py::test_a_short_position_subtracts_delta - asser...
+FAILED tests/test_portfolio.py::test_net_delta_for_the_sample_book - assert 5...
+FAILED tests/test_portfolio.py::test_net_gamma_for_the_sample_book - assert 5...
+3 failed, 2 passed in 0.02s

@@ -1,0 +1,20 @@
+Atlas Markets - Payment Rail Operations Handbook (synthetic training data)
+
+Payment states:
+- submitted: the payment has been sent to the rail and is waiting for confirmation.
+- settled: the rail has confirmed that funds moved. Settled is final.
+- failed: the rail rejected the payment or it timed out. Failed is final and the payment must be re-submitted as a new payment.
+
+Notifications from the rail:
+- The rail sends a notification every time a payment changes state.
+- If our service does not answer a notification with a success code, the rail retries up to five times over two hours.
+- The same notification can therefore arrive more than once, and notifications can arrive out of order.
+
+Support and escalation:
+- A payment still submitted after four hours is treated as stuck and raised with the rail's support desk.
+- Stuck payments over the high-value limit are escalated to the duty manager at once.
+- Every escalation records the payment id, the amount, the time submitted and who raised it.
+
+Maintenance windows:
+- The rail is unavailable for maintenance on the first Sunday of each month from 01:00 to 03:00 UTC.
+- Payments submitted during a maintenance window are held and sent when the rail returns.

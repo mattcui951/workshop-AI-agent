@@ -1,0 +1,16 @@
+## NPM ##
+package-lock.json
+node_modules
+.vscode
+
+## Jekyll (local builds) ##
+_site/
+.jekyll-cache/
+.sass-cache/
+
+## OS clutter (OneDrive/Windows) ##
+Thumbs.db
+desktop.ini
+.DS_Store
+## Maven build output ##
+target/

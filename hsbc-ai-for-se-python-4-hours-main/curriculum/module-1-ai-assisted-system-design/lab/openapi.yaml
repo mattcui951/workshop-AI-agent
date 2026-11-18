@@ -1,0 +1,98 @@
+# Assumptions (answers to the gaps in the PRD)
+#  - payment_id is an opaque string, 1-64 characters, assigned by the payments platform
+#  - event_id is a unique id for each rail notification; it makes duplicates safe (idempotency)
+#  - states move forward only: submitted -> settled | failed. settled and failed are final
+#  - the latest event by occurred_at wins; an older or duplicate event is accepted but ignored
+#  - the rail authenticates with a shared-secret signature header (details out of scope for this lab)
+#  - all timestamps are ISO 8601 in UTC
+openapi: 3.0.3
+info:
+  title: Payment Status Service
+  version: "1.0.0"
+  description: >
+    Keeps the latest state of each outbound payment, fed by notifications from the payment rail.
+    Synthetic training example, not an HSBC API.
+paths:
+  /events:
+    post:
+      summary: Receive a payment state-change notification from the rail
+      operationId: receiveEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentEvent'
+      responses:
+        '202':
+          description: Accepted. A duplicate or out-of-date event is also accepted and ignored.
+        '400':
+          description: The notification is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /payments/{payment_id}:
+    get:
+      summary: Get the current status of a payment
+      operationId: getPaymentStatus
+      parameters:
+        - name: payment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      responses:
+        '200':
+          description: The current status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentStatus'
+        '404':
+          description: No payment with that id has been seen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    PaymentEvent:
+      type: object
+      required: [event_id, payment_id, state, occurred_at]
+      properties:
+        event_id:
+          type: string
+          minLength: 1
+          maxLength: 64
+        payment_id:
+          type: string
+          minLength: 1
+          maxLength: 64
+        state:
+          type: string
+          enum: [submitted, settled, failed]
+        occurred_at:
+          type: string
+          format: date-time
+    PaymentStatus:
+      type: object
+      required: [payment_id, state, updated_at]
+      properties:
+        payment_id:
+          type: string
+        state:
+          type: string
+          enum: [submitted, settled, failed]
+        updated_at:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string

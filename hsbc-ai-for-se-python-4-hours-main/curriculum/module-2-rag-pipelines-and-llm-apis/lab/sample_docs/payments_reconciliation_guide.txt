@@ -1,0 +1,20 @@
+Atlas Markets — Payments Reconciliation Guide (synthetic training data)
+
+Daily reconciliation process:
+1. Pull the prior day's completed payment events from the payment
+   rail's event log.
+2. Match each event against the internal ledger by payment ID.
+3. Flag any payment present in one system but not the other as a
+   reconciliation break.
+
+Handling reconciliation breaks:
+- Breaks under a configured materiality threshold are logged and
+  reviewed at the next daily standup.
+- Breaks over the materiality threshold require same-day escalation
+  to the reconciliation lead and must be resolved or explained within
+  24 hours.
+
+Data handling:
+- Reconciliation reports must not include full account numbers —
+  use the last four digits only.
+- Reports are retained for 7 years per record-retention policy.

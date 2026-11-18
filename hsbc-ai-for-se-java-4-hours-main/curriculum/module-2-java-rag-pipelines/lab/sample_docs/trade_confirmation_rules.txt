@@ -1,0 +1,21 @@
+Atlas Metals Bullion Desk - Trade Confirmation Rules (synthetic training data)
+
+Standard confirmations
+- Every executed spot or forward trade generates a trade confirmation for the client.
+- Confirmations use the standard confirmation format unless the client has an approved custom template.
+- Quantities are always shown in troy ounces and prices in the trade currency per troy ounce.
+
+Client-specific templates
+- A client may request a custom confirmation template with their own layout and wording.
+- Every custom template needs legal sign-off on the wording before it can be used in production.
+- A custom template is built and tested locally, then released to UAT, then signed off by the business and by legal.
+- Template changes after sign-off restart the approval process, even for a one-word change.
+
+Timing and corrections
+- Confirmations must be sent within one hour of trade capture.
+- A trade that is cancelled or amended after confirmation requires a corrected confirmation that references the original.
+- Rounding: quantities are shown to three decimal places and prices to two decimal places.
+
+Matching
+- The client's counter-confirmation is matched to the trade on trade id, metal, quantity, price and settlement date.
+- An unmatched confirmation after the next business day is escalated to the operations lead.

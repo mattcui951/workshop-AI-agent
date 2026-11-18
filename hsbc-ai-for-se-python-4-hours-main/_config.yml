@@ -1,0 +1,26 @@
+kramdown:
+  syntax_highlighter_opts:
+    disable: true                 # highlight.js handles code blocks
+
+# Every page uses _layouts/home.html (GA theme, no lesson nav). Each lesson module has an
+# internal-resources/data/config.json and overrides that with _layouts/module.html, which adds the lesson nav.
+# The more specific path wins.
+defaults:
+  - scope: { path: "" }
+    values: { layout: home }
+  - scope: { path: "curriculum/module-1-ai-assisted-system-design" }
+    values: { layout: module }
+  - scope: { path: "curriculum/module-2-rag-pipelines-and-llm-apis" }
+    values: { layout: module }
+  - scope: { path: "curriculum/module-3-performance-security-and-governance" }
+    values: { layout: module }
+  - scope: { path: "curriculum/module-4-agentic-patterns-and-workflows" }
+    values: { layout: module }
+
+# Reference solutions stay in the repository but are not published on the site.
+# Remove these lines to publish them (for example, for an instructor-only copy of the site).
+exclude:
+  - curriculum/module-1-ai-assisted-system-design/solutions
+  - curriculum/module-2-rag-pipelines-and-llm-apis/solutions
+  - curriculum/module-3-performance-security-and-governance/solutions
+  - curriculum/module-4-agentic-patterns-and-workflows/solutions
